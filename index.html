@@ -62,9 +62,9 @@
 
     .title {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
       font-weight: 500;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--accent);
       text-align: center;
@@ -92,7 +92,7 @@
     .percentage {
       font-family: 'IBM Plex Mono', monospace;
       font-weight: 300;
-      font-size: clamp(3.5rem, 12vw, 8rem);
+      font-size: clamp(2.8rem, 9vw, 5.5rem);
       color: var(--text-primary);
       letter-spacing: -0.02em;
       display: inline-block;
@@ -180,15 +180,16 @@
 
     .meta-key {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.18em;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--text-secondary);
+      color: var(--accent);
+      opacity: 0.7;
     }
 
     .meta-val {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.78rem;
+      font-size: 1rem;
       color: var(--text-primary);
       font-weight: 400;
       letter-spacing: 0.02em;
@@ -250,7 +251,11 @@
         <span class="meta-key">end</span>
         <span class="meta-val" id="end-time">—</span>
       </div>
-      <div class="meta-item full">
+      <div class="meta-item">
+        <span class="meta-key">time spent</span>
+        <span class="meta-val" id="spent">—</span>
+      </div>
+      <div class="meta-item">
         <span class="meta-key">remaining</span>
         <span class="meta-val remaining" id="remaining">—</span>
       </div>
@@ -278,6 +283,16 @@
         pad(d.getMinutes()) + ':' +
         pad(d.getSeconds())
       );
+    }
+
+    function formatSpent(ms) {
+      if (ms <= 0) return '0d  00h  00m  00s';
+      const totalSec = Math.floor(ms / 1000);
+      const days     = Math.floor(totalSec / 86400);
+      const hours    = Math.floor((totalSec % 86400) / 3600);
+      const mins     = Math.floor((totalSec % 3600) / 60);
+      const secs     = totalSec % 60;
+      return `${days}d  ${pad(hours)}h  ${pad(mins)}m  ${pad(secs)}s`;
     }
 
     function formatRemaining(ms) {
@@ -312,6 +327,7 @@
     const barEl       = document.getElementById('bar');
     const remainingEl = document.getElementById('remaining');
 
+    const spentEl     = document.getElementById('spent');
     let lastBarWidth = -1;
 
     function tick() {
@@ -321,6 +337,8 @@
       const display  = clamped.toFixed(9);
 
       pctEl.textContent = display;
+
+      spentEl.textContent = formatSpent(now - startTs);
 
       if (clamped >= 100) {
         pctEl.classList.add('complete');
