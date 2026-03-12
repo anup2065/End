@@ -1,0 +1,24 @@
+{
+  "name": "The Day Cage Opens For Anup Ghimire",
+  "short_name": "Anup Escaping",
+  "description": "Countdown to the day the cage opens for Anup Ghimire",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#c8b89a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
